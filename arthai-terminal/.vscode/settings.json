@@ -1,0 +1,15 @@
+{
+  "python.defaultInterpreterPath": "/Users/saikarthikmashetty/arthai-terminal/venv/bin/python",
+  "python.analysis.extraPaths": ["./src", "./components"],
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.diagnosticMode": "workspace",
+  "python.linting.enabled": true,
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "data/cache/*": true,
+    "data/logs/*": true
+  },
+  "Codegeex.RepoIndex": true,
+  "python-envs.defaultEnvManager": "ms-python.python:pyenv"
+}
