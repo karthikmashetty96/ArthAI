@@ -87,3 +87,16 @@ You can build these pieces incrementally; because the project already follows a 
   ```markdown
   📖 [Project Overview & Documentation](docs/PROJECT_OVERVIEW.md)
   ```
+
+  or
+
+  ```markdown
+  📖 [Project Overview](PROJECT_OVERVIEW.md)
+  ```
+
+## 📝 What to Document
+
+- **Project overview**: What is the project about? What are the goals? What are the features? What are the components?
+- **Installation**: How to install the project? What are the dependencies? What are the environment variables?
+- **Usage**: How to use the project? What are the APIs? What are the commands? What are the examples?
+- **Contributing**: How to contribute to the project? What are the guidelines? What are the best practices? What are the issues?
