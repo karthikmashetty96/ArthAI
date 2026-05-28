@@ -262,7 +262,38 @@ def render_paper_trading(selected_stocks: list[dict], price_lookup: dict[str, fl
             st.subheader("Equity Curve")
             if st.session_state.paper_equity_curve:
                 curve_df = pd.DataFrame(st.session_state.paper_equity_curve)
-                st.line_chart(curve_df.set_index("Step")["Value"], height=280)
+                import plotly.express as px
+                fig = px.area(
+                    curve_df,
+                    x="Step",
+                    y="Value",
+                    labels={"Value": "Portfolio Equity (₹)", "Step": "Trade Step"}
+                )
+                fig.update_traces(
+                    line_color="#06b6d4",
+                    fillcolor="rgba(6, 182, 212, 0.12)",
+                    line_width=2.5
+                )
+                fig.update_layout(
+                    height=280,
+                    template="plotly_dark",
+                    paper_bgcolor="rgba(15, 23, 42, 0.2)",
+                    plot_bgcolor="rgba(11, 19, 31, 0.4)",
+                    font=dict(color="#cbd5e1", family="Outfit, Inter, sans-serif"),
+                    hovermode="x unified",
+                    margin=dict(l=10, r=10, t=10, b=10),
+                )
+                fig.update_xaxes(
+                    gridcolor="#1e293b",
+                    zerolinecolor="#1e293b",
+                    tickfont=dict(family="JetBrains Mono, monospace")
+                )
+                fig.update_yaxes(
+                    gridcolor="#1e293b",
+                    zerolinecolor="#1e293b",
+                    tickfont=dict(family="JetBrains Mono, monospace")
+                )
+                st.plotly_chart(fig, use_container_width=True)
             else:
                 st.info("Equity curve will appear after account changes.")
 

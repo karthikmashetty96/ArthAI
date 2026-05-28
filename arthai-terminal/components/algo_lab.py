@@ -60,29 +60,40 @@ def render_algo_lab():
             st.warning("Live trading is locked. Build confidence in paper mode first.")
 
     with col_safety:
-        st.markdown("#### Go-Live Checklist")
-        checklist = {
-            "Paper trading profitable for 30+ sessions": False,
-            "Max drawdown understood": False,
-            "Order logs stored locally": False,
-            "Kill switch tested": False,
-            "Angel order placement tested with 1-share sandbox-sized trades": False,
-            "Telegram failure alerts tested": False,
-        }
-        for label, value in checklist.items():
-            st.checkbox(label, value=value, disabled=True)
+        st.markdown("#### 🛡️ Compliance Checklist")
+        checklist = [
+            ("Paper trading profitable (30+ sessions)", False),
+            ("Max drawdown margins mapped", False),
+            ("Structured audit logging verified", False),
+            ("Execution Kill-switch validated", False),
+            ("Angel One sandbox orders verified", False),
+            ("Telegram alerts operational", False),
+        ]
+        for label, checked in checklist:
+            status_text = "PASSED" if checked else "LOCKED"
+            badge_class = "badge-buy" if checked else "badge-sell"
+            st.markdown(f"""
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.55rem 0.75rem; background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; margin-bottom: 0.5rem; backdrop-filter: blur(10px);">
+                <span style="font-size: 0.82rem; color: #cbd5e1;">{label}</span>
+                <span class="pro-badge {badge_class}" style="font-size: 0.65rem; border-color: rgba(255,255,255,0.02);">{status_text}</span>
+            </div>
+            """, unsafe_allow_html=True)
 
-        st.markdown("#### Suggested Build Order")
-        st.dataframe(
-            pd.DataFrame(
-                [
-                    {"Phase": "1", "Capability": "Paper trading + logs", "Status": "Now"},
-                    {"Phase": "2", "Capability": "Backtesting", "Status": "Next"},
-                    {"Phase": "3", "Capability": "Forward test alerts", "Status": "Next"},
-                    {"Phase": "4", "Capability": "One-click live order", "Status": "Later"},
-                    {"Phase": "5", "Capability": "Fully automated live trading", "Status": "Last"},
-                ]
-            ),
-            width="stretch",
-            height=230,
-        )
+        st.markdown("#### 📈 Build Roadmap Phases")
+        phases = [
+            {"Phase": "Phase 1", "Capability": "Simulated Dry-Run Sandbox", "Status": "COMPLETED", "color": "#10b981", "badge": "badge-buy"},
+            {"Phase": "Phase 2", "Capability": "Quantitative Backtest Engine", "Status": "IN QUEUE", "color": "#06b6d4", "badge": "badge-buy"},
+            {"Phase": "Phase 3", "Capability": "Forward Breakout Alert Streams", "Status": "IN QUEUE", "color": "#06b6d4", "badge": "badge-buy"},
+            {"Phase": "Phase 4", "Capability": "One-Click Instant Execution", "Status": "LOCKED", "color": "#f43f5e", "badge": "badge-sell"},
+            {"Phase": "Phase 5", "Capability": "Autonomous Algorithmic Agent", "Status": "LOCKED", "color": "#f43f5e", "badge": "badge-sell"},
+        ]
+        for p in phases:
+            st.markdown(f"""
+            <div style="padding: 0.65rem 0.85rem; background: rgba(15, 23, 42, 0.35); border-left: 3px solid {p['color']}; border-top: 1px solid rgba(255,255,255,0.03); border-right: 1px solid rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 0.55rem; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px);">
+                <div>
+                    <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase;">{p['Phase']}</div>
+                    <div style="font-size: 0.8rem; color: #f8fafc; font-weight: 600;">{p['Capability']}</div>
+                </div>
+                <span class="pro-badge {p['badge']}" style="font-size: 0.65rem; border-color: rgba(255,255,255,0.02);">{p['Status']}</span>
+            </div>
+            """, unsafe_allow_html=True)

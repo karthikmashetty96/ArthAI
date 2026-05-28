@@ -45,10 +45,10 @@ def render_data_grid(df: pd.DataFrame) -> pd.DataFrame:
                     rsi = float(val) if pd.notna(val) else 50
                 
                 if rsi < 30:
-                    return "background-color: #e5f4f2; color: #0f766e; font-weight: 600"
+                    return "background-color: rgba(16, 185, 129, 0.18); color: #34d399; font-weight: 700; border-radius: 4px;"
                 elif rsi > 70:
-                    return "background-color: #fbe9e8; color: #c2413a; font-weight: 600"
-                return ""
+                    return "background-color: rgba(244, 63, 94, 0.18); color: #fb7185; font-weight: 700; border-radius: 4px;"
+                return "color: #cbd5e1;"
             except:
                 return ""
 
@@ -58,7 +58,7 @@ def render_data_grid(df: pd.DataFrame) -> pd.DataFrame:
     if "Alerts" in display_df.columns:
         def alert_style(val):
             if val and str(val).strip() and val != "":
-                return "background-color: #f6f8fa; color: #102025; font-weight: 600"
+                return "background-color: rgba(6, 182, 212, 0.12); color: #22d3ee; font-weight: 600; border-left: 3px solid #06b6d4;"
             return ""
 
         style_subsets.append((alert_style, ["Alerts"]))

@@ -183,8 +183,10 @@ def fetch_screener_metrics(stock: dict) -> dict[str, float | str]:
         if debt_to_equity > 10:
             debt_to_equity = debt_to_equity / 100
 
-        financials = ticker.financials or pd.DataFrame()
-        quarterly = ticker.quarterly_financials or pd.DataFrame()
+        _financials = ticker.financials
+        financials = _financials if isinstance(_financials, pd.DataFrame) and not _financials.empty else pd.DataFrame()
+        _quarterly = ticker.quarterly_financials
+        quarterly = _quarterly if isinstance(_quarterly, pd.DataFrame) and not _quarterly.empty else pd.DataFrame()
         current_sales = _statement_value(financials, ["Total Revenue"], 0)
         old_sales = _statement_value(financials, ["Total Revenue"], 3)
         current_profit = _statement_value(financials, ["Net Income"], 0)

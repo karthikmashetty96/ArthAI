@@ -67,98 +67,94 @@ st.set_page_config(
 # =============================================================================
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
     :root {
-        --bg: #f3f6f8;
-        --surface: #ffffff;
-        --surface-muted: #f8fafb;
-        --border: #dce4ea;
-        --border-strong: #c7d2da;
-        --text: #101820;
-        --muted: #5d6b78;
-        --faint: #8a98a5;
-        --brand: #0f766e;
-        --brand-soft: #e5f4f2;
-        --brand-dark: #0b4f49;
-        --positive: #0f8a5f;
-        --negative: #c2413a;
-        --warning: #b7791f;
+        --bg: var(--background-color, #060913);
+        --surface: var(--secondary-background-color, rgba(15, 23, 42, 0.4));
+        --border: rgba(128, 128, 128, 0.15);
+        --text: var(--text-color, #f8fafc);
+        --muted: #64748b;
+        --brand: var(--primary-color, #06b6d4);
+        --brand-gradient: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+        --brand-soft: rgba(6, 182, 212, 0.12);
+        --positive: #10b981;
+        --negative: #f43f5e;
     }
 
     html, body, [class*="css"] {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
     .stApp {
-        background:
-            linear-gradient(180deg, #edf3f5 0%, #f7f9fa 280px, #f3f6f8 100%);
         color: var(--text);
     }
 
     .block-container {
-        max-width: 1500px;
+        max-width: 1550px;
         padding-top: 1rem;
         padding-bottom: 2rem;
     }
 
+    /* Floating Glass Header */
     .main-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 1rem;
-        padding: 1rem 1.1rem;
-        margin: 0 0 1rem;
-        background: rgba(255, 255, 255, 0.82);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        box-shadow: 0 14px 35px rgba(16, 24, 32, 0.06);
-        backdrop-filter: blur(12px);
+        padding: 1.2rem 1.5rem;
+        margin-bottom: 1.5rem;
+        background: rgba(128, 128, 128, 0.08) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 14px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(20px);
     }
 
     .brand-wrap {
         display: flex;
         align-items: center;
-        gap: 0.85rem;
+        gap: 1rem;
     }
 
     .brand-mark {
-        width: 42px;
-        height: 42px;
-        border-radius: 9px;
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
         display: grid;
         place-items: center;
-        background: #102025;
-        color: #a7f3d0;
-        font-size: 0.78rem;
+        background: var(--brand-gradient);
+        color: #ffffff !important;
+        font-size: 1rem;
         font-weight: 800;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.05em;
+        box-shadow: 0 0 25px rgba(6, 182, 212, 0.25);
     }
 
     .header-title {
         margin: 0;
-        color: var(--text);
-        font-size: 1.38rem;
+        color: var(--text) !important;
+        font-size: 1.6rem;
         line-height: 1.1;
         font-weight: 800;
-        letter-spacing: 0;
+        letter-spacing: -0.02em;
     }
 
     .header-subtitle {
-        margin: 0.22rem 0 0;
+        margin: 0.25rem 0 0;
         color: var(--muted);
-        font-size: 0.88rem;
+        font-size: 0.9rem;
         font-weight: 500;
     }
 
     .header-status {
         display: inline-flex;
         align-items: center;
-        gap: 0.45rem;
-        padding: 0.45rem 0.7rem;
+        gap: 0.5rem;
+        padding: 0.5rem 0.85rem;
         background: var(--brand-soft);
-        color: var(--brand-dark);
-        border: 1px solid #b7e2dd;
+        color: var(--brand) !important;
+        border: 1px solid rgba(6, 182, 212, 0.25);
         border-radius: 999px;
         font-size: 0.8rem;
         font-weight: 700;
@@ -166,147 +162,239 @@ st.markdown("""
     }
 
     .status-dot {
-        width: 0.48rem;
-        height: 0.48rem;
+        width: 8px;
+        height: 8px;
         background: var(--positive);
         border-radius: 999px;
-        box-shadow: 0 0 0 4px rgba(15, 138, 95, 0.13);
+        box-shadow: 0 0 12px var(--positive);
+        animation: pulse 2s infinite;
     }
 
+    @keyframes pulse {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* Glass Cards */
+    .glass-card {
+        background: rgba(128, 128, 128, 0.08) !important;
+        backdrop-filter: blur(16px);
+        border: 1px solid var(--border) !important;
+        border-radius: 14px !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+        padding: 1.25rem !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .glass-card:hover {
+        border-color: var(--brand) !important;
+        box-shadow: 0 15px 35px rgba(6, 182, 212, 0.1) !important;
+    }
+
+    /* High-Tech Metrics styling */
     [data-testid="stMetric"] {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 0.75rem 0.85rem;
-        box-shadow: 0 6px 20px rgba(16, 24, 32, 0.04);
+        background: rgba(128, 128, 128, 0.06) !important;
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--border) !important;
+        border-radius: 12px;
+        padding: 0.85rem 1rem !important;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03) !important;
+        transition: border-color 0.2s;
+    }
+    
+    [data-testid="stMetric"]:hover {
+        border-color: var(--brand) !important;
     }
 
     [data-testid="stMetricLabel"] {
-        color: var(--muted);
-        font-size: 0.76rem;
-        font-weight: 700;
+        color: var(--muted) !important;
+        font-size: 0.8rem !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
     }
 
     [data-testid="stMetricValue"] {
-        color: var(--text);
-        font-size: 1.08rem;
-        font-weight: 800;
+        color: var(--text) !important;
+        font-size: 1.3rem !important;
+        font-weight: 700 !important;
+        font-family: 'JetBrains Mono', monospace !important;
     }
 
     [data-testid="stMetricDelta"] {
-        font-size: 0.76rem;
-        font-weight: 700;
+        font-size: 0.8rem !important;
+        font-weight: 700 !important;
+        font-family: 'JetBrains Mono', monospace !important;
     }
 
+    /* Custom borders and outlines */
     div[data-testid="stVerticalBlockBorderWrapper"] {
-        border-color: var(--border) !important;
-        border-radius: 10px !important;
-        box-shadow: 0 8px 24px rgba(16, 24, 32, 0.04);
-        background: var(--surface);
+        border: 1px solid var(--border) !important;
+        border-radius: 14px !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+        background: rgba(128, 128, 128, 0.04) !important;
+        backdrop-filter: blur(14px);
     }
 
+    /* Sidebar controls */
     section[data-testid="stSidebar"] {
-        background: #fbfcfd;
-        border-right: 1px solid var(--border);
+        border-right: 1px solid var(--border) !important;
     }
 
     section[data-testid="stSidebar"] h1,
     section[data-testid="stSidebar"] h2,
     section[data-testid="stSidebar"] h3 {
-        color: var(--text);
-        letter-spacing: 0;
+        color: var(--text) !important;
+        letter-spacing: -0.01em;
     }
 
+    /* Futuristic Buttons */
     .stButton > button,
     button[kind="primary"] {
-        border-radius: 8px;
-        border: 1px solid var(--brand) !important;
-        background: var(--brand) !important;
-        color: white !important;
-        font-weight: 750;
-        box-shadow: none;
+        border: none !important;
+        background: var(--brand-gradient) !important;
+        color: #ffffff !important;
+        font-weight: 800 !important;
+        border-radius: 10px !important;
+        letter-spacing: 0.02em !important;
+        padding: 0.6rem 1.5rem !important;
+        box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2) !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
 
     .stButton > button:hover,
     button[kind="primary"]:hover {
-        background: var(--brand-dark) !important;
-        border-color: var(--brand-dark) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3) !important;
     }
 
     button[kind="secondary"] {
-        background: var(--surface) !important;
+        background: rgba(128, 128, 128, 0.05) !important;
         color: var(--text) !important;
-        border: 1px solid var(--border-strong) !important;
-        border-radius: 8px;
-        box-shadow: none;
+        border: 1px solid var(--border) !important;
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
 
+    button[kind="secondary"]:hover {
+        background: rgba(128, 128, 128, 0.1) !important;
+        border-color: var(--brand) !important;
+    }
+
+    /* Tabs Styling */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 0.25rem;
-        padding: 0.3rem;
-        background: #e7edf1;
-        border: 1px solid var(--border);
-        border-radius: 10px;
+        gap: 0.5rem;
+        padding: 0.4rem;
+        background: rgba(128, 128, 128, 0.06) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
     }
 
     .stTabs [data-baseweb="tab"] {
-        border-radius: 8px;
-        padding: 0.65rem 1rem;
-        color: var(--muted);
-        font-weight: 700;
+        border-radius: 8px !important;
+        padding: 0.75rem 1.25rem !important;
+        color: var(--muted) !important;
+        font-weight: 700 !important;
+        font-size: 0.95rem !important;
+        transition: all 0.2s !important;
     }
 
     .stTabs [aria-selected="true"] {
-        background: var(--surface);
-        color: var(--brand-dark);
-        box-shadow: 0 4px 12px rgba(16, 24, 32, 0.06);
+        background: rgba(128, 128, 128, 0.15) !important;
+        color: var(--brand) !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+        border-bottom: 2px solid var(--brand) !important;
     }
 
-    [data-testid="stSegmentedControl"] {
-        background: transparent;
-    }
-
+    /* DataFrame custom overrides */
     [data-testid="stDataFrame"] {
-        border: 1px solid var(--border);
-        border-radius: 10px;
+        border: 1px solid var(--border) !important;
+        border-radius: 12px !important;
         overflow: hidden;
-        box-shadow: 0 8px 24px rgba(16, 24, 32, 0.04);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
     }
 
+    /* Glowing alert custom borders */
     .stAlert {
-        border-radius: 10px;
+        border-radius: 12px !important;
+        background-color: rgba(128, 128, 128, 0.08) !important;
+        border: 1px solid var(--border) !important;
+        backdrop-filter: blur(10px);
+    }
+    
+    .stAlert [data-testid="stNotificationContentSuccess"] {
+        border-left: 4px solid var(--positive) !important;
+    }
+    .stAlert [data-testid="stNotificationContentError"] {
+        border-left: 4px solid var(--negative) !important;
+    }
+
+    /* custom badge */
+    .pro-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.5rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        font-family: 'JetBrains Mono', monospace;
+        letter-spacing: 0.02em;
+    }
+    
+    .badge-buy {
+        background: rgba(16, 185, 129, 0.15);
+        color: #34d399;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    
+    .badge-sell {
+        background: rgba(244, 63, 94, 0.15);
+        color: #fb7185;
+        border: 1px solid rgba(244, 63, 94, 0.3);
     }
 
     h1, h2, h3 {
-        color: var(--text);
-        letter-spacing: 0;
+        color: var(--text) !important;
+        letter-spacing: -0.01em;
+        font-weight: 700 !important;
     }
 
-    .app-footer {
-        margin-top: 1.5rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border);
-        color: var(--faint);
-        font-size: 0.82rem;
-        text-align: center;
+    /* Scrollbars */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
     }
-
-    @media (max-width: 900px) {
-        .main-header {
-            align-items: flex-start;
-            flex-direction: column;
-        }
+    ::-webkit-scrollbar-track {
+        background: rgba(128, 128, 128, 0.03);
+    }
+    ::-webkit-scrollbar-thumb {
+        background: rgba(128, 128, 128, 0.15);
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--brand);
     }
 </style>
 """, unsafe_allow_html=True)
 
-with st.container(border=True):
-    header_left, header_right = st.columns([4, 1])
-    with header_left:
-        st.title("ArthAI Trading Terminal")
-        st.caption("Live market watch, screener radar, AI trade desk, and paper execution.")
-    with header_right:
-        st.metric("Workspace", "Market", "Live panel")
+st.markdown("""
+<div class="main-header">
+    <div class="brand-wrap">
+        <div class="brand-mark">ARTH</div>
+        <div>
+            <h1 class="header-title">ArthAI Trading Terminal</h1>
+            <p class="header-subtitle">Live market watch · Screener radar · AI trade desk · Simulated execution</p>
+        </div>
+    </div>
+    <div class="header-status">
+        <div class="status-dot"></div>
+        <span>LIVE DATA ENGINE</span>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 
 # =============================================================================
@@ -1138,155 +1226,207 @@ def main():
                 render_status_indicator("error", "No valid data returned for selected tickers. Check symbols or try again.")
     
     # ─────────────────────────────────────────────────────────────────────
-    # 📈 DEEP DIVE & AI TAB
+    # 📈 DEEP DIVE & AI TAB (Multi-Chart Panel)
     # ─────────────────────────────────────────────────────────────────────
     with tab_chart:
+        if "active_charts" not in st.session_state:
+            st.session_state["active_charts"] = selected_stocks[:1] if selected_stocks else []
+
         if not selected_stocks:
             with st.container(border=True):
                 st.subheader("Select Stocks First")
-                st.write("Use the sidebar watchlist picker to enable charts, indicators, and AI analysis.")
+                st.write("Use the sidebar stock finder to add equities to your Active Watchlist.")
             return
-        
-        # Professional stock selector
-        col_sel, col_info = st.columns([3, 1])
-        with col_sel:
-            stock_options = [f"{s['symbol']} ({s['exchange']})" for s in selected_stocks]
-            selected_label = st.selectbox(
-                "Select Stock for Deep Analysis",
-                options=stock_options,
-                index=0,
-                help="Choose a stock to view detailed charts and AI-powered trade recommendations"
-            )
-        
-        # Parse selected label
-        if selected_label:
-            parts = selected_label.split(" (")
-            target_symbol = parts[0]
-            target_exchange = parts[1].rstrip(")") if len(parts) > 1 else "NSE"
-            target = next(
-                (
+
+        # Double-check constraints
+        st.session_state["active_charts"] = [
+            c for c in st.session_state["active_charts"]
+            if any(item["symbol"] == c["symbol"] and item["exchange"] == c["exchange"] for item in selected_stocks)
+        ]
+        if not st.session_state["active_charts"] and selected_stocks:
+            st.session_state["active_charts"] = [selected_stocks[0]]
+
+        # 📊 Grid & Window Panel Settings Controller
+        st.markdown("### 📊 Interactive Multi-Chart Panel")
+        with st.expander("🛠️ Panel View & Windows Controller (Manage Grid Layout)", expanded=False):
+            st.caption("Display up to 4 independent charts simultaneously in a dynamic grid layout.")
+            
+            c_add, c_actions = st.columns([2, 1])
+            with c_add:
+                inactive_stocks = [
                     s for s in selected_stocks
-                    if s["symbol"] == target_symbol and s["exchange"] == target_exchange
-                ),
-                {"symbol": target_symbol, "exchange": target_exchange},
-            )
-        else:
+                    if not any(ac["symbol"] == s["symbol"] and ac["exchange"] == s["exchange"] for ac in st.session_state["active_charts"])
+                ]
+                if inactive_stocks:
+                    add_opts = [f"{s['symbol']} ({s['exchange']})" for s in inactive_stocks]
+                    to_add = st.selectbox("Select stock to add to panel", options=add_opts, key="chart_add_picker")
+                    if st.button("➕ Add Chart Window", type="primary", use_container_width=True):
+                        if len(st.session_state["active_charts"]) < 4:
+                            parts = to_add.split(" (")
+                            add_sym = parts[0]
+                            add_exch = parts[1].rstrip(")")
+                            stock_to_add = next(s for s in selected_stocks if s["symbol"] == add_sym and s["exchange"] == add_exch)
+                            st.session_state["active_charts"].append(stock_to_add)
+                            st.toast(f"Added {add_sym} to Chart Panel!")
+                            st.rerun()
+                        else:
+                            st.error("Max 4 charts can be displayed simultaneously.")
+                else:
+                    st.info("All watchlist stocks are currently active on the panel.")
+            with c_actions:
+                if st.button("🔄 Reset Panel (Show 1 Chart)", use_container_width=True):
+                    st.session_state["active_charts"] = [selected_stocks[0]]
+                    st.rerun()
+                if st.button("❌ Clear All Charts", use_container_width=True):
+                    st.session_state["active_charts"] = []
+                    st.rerun()
+
+        if not st.session_state["active_charts"]:
+            st.info("No active charts on screen. Manage windows above or add a stock.")
             return
-        
-        # Stock info header
-        with col_info:
-            symbol_display = target['symbol']
-            exchange_display = target['exchange']
-            with st.container(border=True):
-                st.metric("Selected", symbol_display, exchange_display)
-        
-        st.divider()
-        
-        # Two-column layout: Chart + AI Panel
-        col_chart, col_ai = st.columns([2, 1])
-        
-        with col_chart:
-            st.subheader("Price Chart & Indicators")
-            c1, c2, c3 = st.columns([1, 1, 2])
-            with c1:
-                chart_period = st.selectbox("Period", ["3mo", "6mo", "1y", "2y", "5y"], index=2)
-            with c2:
-                chart_interval = st.selectbox("Interval", ["1d", "1wk", "1mo"], index=0)
-            with c3:
-                chart_overlays = st.multiselect(
-                    "Overlays",
-                    ["EMA 20", "SMA 50", "SMA 200", "Bollinger Bands", "VWAP"],
-                    default=["EMA 20", "SMA 50", "SMA 200"],
-                )
-            chart_lower = st.multiselect(
-                "Indicator Panels",
-                ["Volume", "RSI", "MACD"],
-                default=["Volume", "RSI", "MACD"],
-            )
-            if target.get("instrumenttype") == "INDEX":
-                yahoo_ticker = "^BSESN" if target["symbol"] == "SENSEX" else "^NSEI"
-            else:
-                clean_symbol = target['symbol'].replace("-EQ", "")
-                yahoo_ticker = f"{clean_symbol}{'.BO' if target['exchange'] == 'BSE' else '.NS'}"
-            render_chart(
-                yahoo_ticker,
-                period=chart_period,
-                interval=chart_interval,
-                overlays=chart_overlays,
-                lower_indicators=chart_lower,
-            )
-            
-            # Quick stats below chart
-            try:
-                hist = _fetch_smart_data(target['symbol'], target['exchange'], period="1mo")
-                if not hist.empty and 'close' in hist.columns:
-                    latest = hist.iloc[-1]
-                    prev = hist.iloc[-2] if len(hist) > 1 else latest
-                    change = ((latest['close'] - prev['close']) / prev['close']) * 100
-                    
-                    col_s1, col_s2, col_s3, col_s4 = st.columns(4)
-                    with col_s1:
-                        price_str = f"₹{latest['close']:,.2f}"
-                        st.metric("Current", price_str)
-                    with col_s2:
-                        change_str = f"{change:+.2f}%"
-                        delta_color = "normal" if abs(change) < 1 else ("inverse" if change < 0 else "normal")
-                        st.metric("Change", change_str, delta_color=delta_color)
-                    with col_s3:
-                        vol_str = f"{latest.get('volume', 0):,}"
-                        st.metric("Volume", vol_str)
-                    with col_s4:
-                        rsi = latest.get('rsi_14', 50)
-                        rsi_str = f"{rsi:.1f}"
-                        delta_text = "Oversold" if rsi < 30 else "Overbought" if rsi > 70 else "Neutral"
-                        st.metric("RSI(14)", rsi_str, delta=delta_text, delta_color="normal")
-            except:
-                pass
-        
-        with col_ai:
-            st.subheader("AI Trade Analysis")
-            
-            # Fetch data for AI
-            try:
-                tech_df = _fetch_smart_data(target['symbol'], target['exchange'], period="3mo")
-                if not tech_df.empty:
-                    tech_df = calculate_technical_indicators(tech_df)
-            except:
-                tech_df = None
-            
-            # AI analysis controls
-            focus_area = st.selectbox(
-                "Analysis Focus",
-                options=["momentum", "support_resistance", "breakout", "reversal", "swing_trade"],
-                format_func=lambda x: x.replace("_", " ").title()
-            )
-            
-            if st.button("Generate AI Analysis", type="primary", use_container_width=True):
-                with st.spinner("Consulting local AI model..."):
-                    ai_response = generate_ai_trade_plan(
-                        ticker=target['symbol'],
-                        tech_df=tech_df,
-                        focus=focus_area
+
+        # ─────────────────────────────────────────────────────────────────────
+        # 🎨 Chart Grid Layout Renderer (1x1, 1x2, or 2x2 Grid)
+        # ─────────────────────────────────────────────────────────────────────
+        active_panels = st.session_state["active_charts"][:4]
+        n_charts = len(active_panels)
+
+        # Build grid cells
+        grid_cells = []
+        if n_charts == 1:
+            grid_cells = [st.container(border=True)]
+        elif n_charts == 2:
+            cols = st.columns(2)
+            grid_cells = [cols[0], cols[1]]
+        elif n_charts == 3:
+            cols_r1 = st.columns(2)
+            cols_r2 = st.columns([1, 1])
+            grid_cells = [cols_r1[0], cols_r1[1], cols_r2[0]]
+        else: # 4 charts
+            cols_r1 = st.columns(2)
+            cols_r2 = st.columns(2)
+            grid_cells = [cols_r1[0], cols_r1[1], cols_r2[0], cols_r2[1]]
+
+        # Render each panel card
+        for idx, target in enumerate(active_panels):
+            with grid_cells[idx]:
+                # Top header bar inside panel card
+                col_lbl, col_rem = st.columns([4, 1])
+                col_lbl.markdown(f"##### 📈 **{target['symbol']}** · {target['exchange']}")
+                
+                # Close button
+                if col_rem.button("❌", key=f"close_card_{idx}_{target['symbol']}", help="Close this chart card"):
+                    st.session_state["active_charts"].pop(idx)
+                    st.toast(f"Closed {target['symbol']} chart panel.")
+                    st.rerun()
+
+                # Card configurations
+                c1, c2, c3 = st.columns(3)
+                with c1:
+                    # Switch stock option
+                    opts = [f"{s['symbol']} ({s['exchange']})" for s in selected_stocks]
+                    def_idx = 0
+                    for o_idx, o in enumerate(opts):
+                        if o.startswith(target['symbol'] + " ("):
+                            def_idx = o_idx
+                            break
+                    switched = st.selectbox(
+                        "Stock", 
+                        options=opts, 
+                        index=def_idx, 
+                        key=f"switch_stock_{idx}_{target['symbol']}"
                     )
-                    with st.container(border=True):
-                        st.markdown(ai_response)
+                    s_parts = switched.split(" (")
+                    s_sym = s_parts[0]
+                    s_exch = s_parts[1].rstrip(")")
+                    if s_sym != target['symbol'] or s_exch != target['exchange']:
+                        new_stock = next(s for s in selected_stocks if s["symbol"] == s_sym and s["exchange"] == s_exch)
+                        st.session_state["active_charts"][idx] = new_stock
+                        st.rerun()
+                with c2:
+                    period = st.selectbox("Period", ["3mo", "6mo", "1y", "2y", "5y"], index=1, key=f"period_{idx}_{target['symbol']}")
+                with c3:
+                    interval = st.selectbox("Interval", ["1d", "1wk", "1mo"], index=0, key=f"interval_{idx}_{target['symbol']}")
+
+                # Overlay / Indicator Toggles Popover
+                with st.popover("⚙️ Indicators & Overlays", use_container_width=True):
+                    overlays = st.multiselect(
+                        "Chart Overlays",
+                        ["EMA 20", "SMA 50", "SMA 200", "Bollinger Bands", "VWAP"],
+                        default=["EMA 20", "SMA 50"],
+                        key=f"overlays_picker_{idx}_{target['symbol']}"
+                    )
+                    lower = st.multiselect(
+                        "Lower Indicators",
+                        ["Volume", "RSI", "MACD"],
+                        default=["Volume", "RSI"],
+                        key=f"lower_picker_{idx}_{target['symbol']}"
+                    )
+
+                # Render dynamic chart
+                if target.get("instrumenttype") == "INDEX":
+                    yahoo_ticker = "^BSESN" if target["symbol"] == "SENSEX" else "^NSEI"
+                else:
+                    clean_symbol = target['symbol'].replace("-EQ", "")
+                    yahoo_ticker = f"{clean_symbol}{'.BO' if target['exchange'] == 'BSE' else '.NS'}"
+                
+                try:
+                    df = render_chart(
+                        yahoo_ticker,
+                        period=period,
+                        interval=interval,
+                        overlays=overlays,
+                        lower_indicators=lower,
+                        dark_mode=True,
+                    )
+                except Exception as e:
+                    st.error(f"Failed to render chart: {e}")
+                    df = pd.DataFrame()
+
+                # Card metrics footer
+                if not df.empty and 'close' in df.columns:
+                    latest = df.iloc[-1]
+                    prev = df.iloc[-2] if len(df) > 1 else latest
+                    change = ((latest['close'] - prev['close']) / prev['close']) * 100
+                    rsi_val = latest.get('rsi_14', 50)
                     
-                    # Action buttons
-                    col_a1, col_a2 = st.columns(2)
-                    with col_a1:
-                        if st.button("Send to Telegram", use_container_width=True):
-                            preview = ai_response[:200] + "..." if len(ai_response) > 200 else ai_response
-                            msg = f"*AI Analysis: {target['symbol']}*\n{preview}"
-                            result = send_telegram_alert(msg)
-                            if result.ok:
-                                st.success("Sent to Telegram.")
-                            else:
-                                st.error(result.message)
-                    with col_a2:
-                        if st.button("Show Markdown", use_container_width=True):
-                            st.code(ai_response, language="markdown")
-            else:
-                st.info("Generate AI analysis to get trade context based on technical indicators.")
+                    st.markdown("---")
+                    col_m1, col_m2, col_m3, col_m4 = st.columns(4)
+                    col_m1.metric("LTP", f"₹{latest['close']:,.2f}")
+                    col_m2.metric("Change", f"{change:+.2f}%", delta=f"{change:+.2f}%")
+                    col_m3.metric("RSI(14)", f"{rsi_val:.1f}")
+                    col_m4.metric("Volume", f"{latest.get('volume', 0):,}")
+
+                    # Embedded Local AI Analysis Popover
+                    with st.popover("🤖 Run Local AI Desk", use_container_width=True):
+                        st.markdown(f"#### Local AI Trade Plan for {target['symbol']}")
+                        focus_area = st.selectbox(
+                            "Focus",
+                            options=["momentum", "support_resistance", "breakout", "reversal", "swing_trade"],
+                            format_func=lambda x: x.replace("_", " ").title(),
+                            key=f"ai_focus_{idx}_{target['symbol']}"
+                        )
+                        if st.button(
+                            "🧠 Consult Local AI Model",
+                            key=f"run_ai_btn_{idx}_{target['symbol']}",
+                            type="primary",
+                            use_container_width=True,
+                        ):
+                            with st.spinner("Analyzing with local LLM..."):
+                                ai_response = generate_ai_trade_plan(
+                                    ticker=target['symbol'],
+                                    tech_df=df,
+                                    focus=focus_area,
+                                )
+                            st.markdown(ai_response)
+                            if st.button(
+                                "📤 Send to Telegram",
+                                key=f"tg_btn_{idx}_{target['symbol']}",
+                                use_container_width=True,
+                            ):
+                                msg = f"*AI Trade Desk: {target['symbol']}*\n{ai_response[:1000]}"
+                                result = send_telegram_alert(msg)
+                                st.success("Sent!") if result.ok else st.error(result.message)
 
     # ─────────────────────────────────────────────────────────────────────
     # ⚙️ ALGO LAB TAB
